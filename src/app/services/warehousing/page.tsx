@@ -32,6 +32,97 @@ export default function Warehousing() {
           PT. Maritimexpress menyediakan fasilitas gudang yang aman dan terorganisir untuk penyimpanan barang sementara maupun jangka panjang. Sistem manajemen gudang kami mendukung efisiensi distribusi dan pemantauan stok secara real-time.
         </p>
       </section>
+
+      {/* Why Us Section */}
+      <section className="bg-[f5f5f5] py-16 px-4 mb-10">
+        <h2 className="text-4xl font-medium text-[#27548A] text-center mb-12">Why Us?</h2>
+
+        <div className="max-w-[1100px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 text-center">
+          {/* Card 1 */}
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-36 h-36 bg-[#27548A] rounded-[20px] flex items-center justify-center">
+              <img src="/sistem-manajemen-gudang.png" alt="Warehouse Management" className="w-20 h-20 object-contain" />
+            </div>
+            <p className="text-2xl font-extralight text-black">
+              Sistem Manajemen Gudang Modern
+            </p>
+          </div>
+
+          {/* Card 2 */}
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-36 h-36 bg-[#27548A] rounded-[20px] flex items-center justify-center">
+              <img src="/map-location-track.png" alt="Strategic Location" className="w-20 h-20 object-contain" />
+            </div>
+            <p className="text-2xl font-extralight text-black">
+              Lokasi Strategis
+            </p>
+          </div>
+
+          {/* Card 3 */}
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-36 h-36 bg-[#27548A] rounded-[20px] flex items-center justify-center">
+              <img src="/camera-cctv.png" alt="Security" className="w-20 h-20 object-contain" />
+            </div>
+            <p className="text-2xl font-extralight text-black">
+              Keamanan 24/7
+            </p>
+          </div>
+
+          {/* Card 4 */}
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-36 h-36 bg-[#27548A] rounded-[20px] flex items-center justify-center">
+              <img src="/ac.png" alt="Cold Storage" className="w-20 h-20 object-contain" />
+            </div>
+            <p className="text-2xl font-extralight text-black">
+              Fasilitas Berpendingin & Custom Storage
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Business That We Serve Section */}
+      <section className="bg-[#E2E2E2]/60 py-16 px-4 mb-20">
+        <h2 className="text-4xl font-medium text-[#27548A] text-center mb-16">
+          Business That We Serve
+        </h2>
+
+        <div className="max-w-[1200px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 place-items-center">
+          {/* Card 1 */}
+          <div className="bg-[#27548A] w-48 h-48 flex items-center justify-center p-6 text-center rounded">
+            <p className="text-white text-xl font-normal">Otomotif</p>
+          </div>
+
+          {/* Card 2 */}
+          <div className="bg-[#27548A] w-48 h-48 flex items-center justify-center p-6 text-center rounded">
+            <p className="text-white text-xl font-normal">
+              Makanan & Minuman
+            </p>
+          </div>
+
+          {/* Card 3 */}
+          <div className="bg-[#27548A] w-48 h-48 flex items-center justify-center p-6 text-center rounded">
+            <p className="text-white text-xl font-normal">Pertanian</p>
+          </div>
+
+          {/* Card 4 */}
+          <div className="bg-[#27548A] w-48 h-48 flex items-center justify-center p-6 text-center rounded">
+            <p className="text-white text-xl font-normal">
+              FMCG (Fast-Moving Consumer Goods)
+            </p>
+          </div>
+
+          {/* Card 5 */}
+          <div className="bg-[#27548A] w-48 h-48 flex items-center justify-center p-6 text-center rounded">
+            <p className="text-white text-xl font-normal">Sektor Publik</p>
+          </div>
+
+          {/* Card 6 */}
+          <div className="bg-[#27548A] w-48 h-48 flex items-center justify-center p-6 text-center rounded">
+            <p className="text-white text-xl font-normal">e-Commerce</p>
+          </div>
+        </div>
+      </section>
+
     </main>
   );
 }
