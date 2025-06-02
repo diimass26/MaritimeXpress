@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 
@@ -136,7 +136,7 @@ export default function HomePage() {
                 className="flex flex-col items-center group"
               >
                 <div className="w-36 h-36 bg-[#27548A] rounded-[20px] flex items-center justify-center mb-4 transition-transform group-hover:scale-105">
-                  <img
+                  <Image
                     src={service.icon}
                     alt={service.title}
                     className="w-20 h-20"
