@@ -137,8 +137,10 @@ export default function HomePage() {
               >
                 <div className="w-36 h-36 bg-[#27548A] rounded-[20px] flex items-center justify-center mb-4 transition-transform group-hover:scale-105">
                   <Image
-                    src={service.icon}
+                    src={`/${service.icon}`} // Make sure icon has a leading slash
                     alt={service.title}
+                    width={20}
+                    height={20}
                     className="w-20 h-20"
                   />
                 </div>
