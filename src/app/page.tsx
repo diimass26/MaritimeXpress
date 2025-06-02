@@ -72,7 +72,7 @@ export default function HomePage() {
                 className="object-cover"
               />
               {/* Overlay */}
-              <div className="absolute inset-0 bg-black/50 z-10" />
+              <div className="absolute inset-0 bg-[#393533] opacity-60" />
             </div>
           ))}
         </div>
