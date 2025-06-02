@@ -1,45 +1,54 @@
 'use client';
-import 'leaflet/dist/leaflet.css';
+
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import { LatLngExpression, Icon } from 'leaflet';
-
-
-// Fix missing marker icons
+import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { useEffect } from 'react';
+
+// Fix default icon
 delete (L.Icon.Default as any).prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png',
-  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon-2x.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
+  iconRetinaUrl: '/leaflet/marker-icon-2x.png',
+  iconUrl: '/leaflet/marker-icon.png',
+  shadowUrl: '/leaflet/marker-shadow.png',
 });
 
-const branches = [
-  { name: 'Tanjungpinang', coords: [0.9167, 104.4500] },
-  { name: 'Tanjung Priok, Jakarta', coords: [-6.1044, 106.8807] },
-  { name: 'Belawan, Medan', coords: [3.7833, 98.6833] },
-  { name: 'Tanjung Perak, Surabaya', coords: [-7.2167, 112.7333] },
-  { name: 'Makassar', coords: [-5.1477, 119.4327] },
-  { name: 'Ambon', coords: [-3.7079, 128.1706] },
-  { name: 'Sorong', coords: [-0.8667, 131.2500] },
-  { name: 'Jayapura', coords: [-2.5337, 140.7181] },
-];
-
 export default function MapSection() {
-  const center: LatLngExpression = [-2, 118]; // pusat Indonesia
+  useEffect(() => {
+    // Ini hanya untuk debugging client
+    console.log('Map mounted in client');
+  }, []);
 
   return (
-    <div className="w-[700px] h-[400px]">
-      <MapContainer center={center} zoom={5} scrollWheelZoom={true} className="h-full w-full rounded-lg z-0">
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
-        />
-        {branches.map((branch, i) => (
-          <Marker key={i} position={branch.coords as LatLngExpression}>
-            <Popup>{branch.name}</Popup>
-          </Marker>
-        ))}
-      </MapContainer>
-    </div>
+    <MapContainer center={[-2.5489, 118.0149]} zoom={5} scrollWheelZoom={false} style={{ height: '400px', width: '100%' }}>
+      <TileLayer
+        attribution='&copy; OpenStreetMap'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <Marker position={[0.9, 104.4]}>
+        <Popup>Tanjungpinang, Kepulauan Riau</Popup>
+      </Marker>
+      <Marker position={[-6.1, 106.8]}>
+        <Popup>Tanjung Priok, Jakarta</Popup>
+      </Marker>
+      <Marker position={[3.7, 98.6]}>
+        <Popup>Belawan, Medan</Popup>
+      </Marker>
+      <Marker position={[-7.2, 112.7]}>
+        <Popup>Tanjungperak, Surabaya</Popup>
+      </Marker>
+      <Marker position={[-5.1, 119.4]}>
+        <Popup>Makassar, Sulawesi Selatan</Popup>
+      </Marker>
+      <Marker position={[-3.7, 128.1]}>
+        <Popup>Ambon, Maluku</Popup>
+      </Marker>
+      <Marker position={[-0.8, 131.2]}>
+        <Popup>Sorong, Papua</Popup>
+      </Marker>
+      <Marker position={[-2.5, 140.7]}>
+        <Popup>Jayapura, Papua</Popup>
+      </Marker>
+    </MapContainer>
   );
 }

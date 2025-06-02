@@ -5,7 +5,7 @@ import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import MapSection from "./components/map-section";
+import dynamic from 'next/dynamic';
 
 const images = [
   '/cargo-image-1.png',
@@ -30,6 +30,8 @@ const services = [
     href: '/services/warehousing',
   },
 ];
+
+const MapSection = dynamic(() => import('@/app/components/map-section'), { ssr: false });
 
 export default function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
