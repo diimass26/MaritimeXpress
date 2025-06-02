@@ -125,7 +125,7 @@ export default function HomePage() {
       </section>
 
       {/* Our Services Section */}
-      <section className="py-16 px-4 bg-white text-[#27548A]">
+      <section className="py-16 px-4 bg-[#F5F5F5] text-[#27548A]">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl font-semibold mb-12">Our Services</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
