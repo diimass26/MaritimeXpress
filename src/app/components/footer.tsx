@@ -15,7 +15,7 @@ export default function Footer() {
         <div className="flex flex-col gap-1">
           <h4 className="text-xl font-semibold">Menu</h4>
           <Link href="/" className="hover:underline">Home</Link>
-          <Link href="/service" className="hover:underline">Service</Link>
+          <Link href="/services" className="hover:underline">Service</Link>
           <Link href="/track" className="hover:underline">Track</Link>
           <Link href="/about" className="hover:underline">About</Link>
           <Link href="/contact" className="hover:underline">Contact</Link>
@@ -24,9 +24,9 @@ export default function Footer() {
         {/* Kolom 2: Layanan */}
         <div className="flex flex-col gap-1">
           <h4 className="text-xl font-semibold">Service</h4>
-          <Link href="/service#sea-freight" className="hover:underline">Sea Freight</Link>
-          <Link href="/service#customs-clearance" className="hover:underline">Customs Clearance</Link>
-          <Link href="/service#warehousing" className="hover:underline">Warehousing</Link>
+          <Link href="/services/sea-freight" className="hover:underline">Sea Freight</Link>
+          <Link href="/services/customs-clearance" className="hover:underline">Customs Clearance</Link>
+          <Link href="/services/warehousing" className="hover:underline">Warehousing</Link>
         </div>
 
         {/* Kolom 3: Kontak, Logo, Sosial Media */}
