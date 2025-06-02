@@ -54,10 +54,10 @@ export default function Footer() {
 
           {/* Social Media */}
           <div className="flex gap-4 mt-4">
-            <a href="#"><Image src="/instagram-white.png" alt="Instagram" width={20} height={20} /></a>
-            <a href="#"><Image src="/linkedin-white.png" alt="LinkedIn" width={20} height={20} /></a>
-            <a href="#"><Image src="/tiktok-white.png" alt="TikTok" width={20} height={20} /></a>
-            <a href="#"><Image src="/youtube-white.png" alt="YouTube" width={20} height={20} /></a>
+            <a href="https://www.instagram.com"><Image src="/instagram-white.png" alt="Instagram" width={20} height={20} /></a>
+            <a href="https://www.linkedin.com"><Image src="/linkedin-white.png" alt="LinkedIn" width={20} height={20} /></a>
+            <a href="https://www.tiktok.com"><Image src="/tiktok-white.png" alt="TikTok" width={20} height={20} /></a>
+            <a href="https://www.youtube.com"><Image src="/youtube-white.png" alt="YouTube" width={20} height={20} /></a>
           </div>
         </div>
       </div>
