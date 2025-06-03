@@ -1,13 +1,14 @@
 "use client";
+
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const router = useRouter();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const navLinks = [
@@ -24,34 +25,33 @@ export default function Navbar() {
     { href: "/services/warehousing", label: "Warehousing" },
   ];
 
+  // Detect mobile viewport
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
+    const checkViewport = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkViewport();
+    window.addEventListener("resize", checkViewport);
+    return () => window.removeEventListener("resize", checkViewport);
+  }, []);
+
+  // Close dropdown on outside click (mobile only)
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
         setDropdownOpen(false);
       }
-    }
-    if (dropdownOpen) {
+    };
+    if (dropdownOpen && isMobile) {
       document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
     }
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [dropdownOpen]);
-
-  const handleServiceClick = () => {
-    if (!dropdownOpen) {
-      setDropdownOpen(true);
-    } else {
-      // Kalau dropdown sudah terbuka, redirect ke halaman /services
-      router.push("/services");
-      setDropdownOpen(false);
-    }
-  };
+  }, [dropdownOpen, isMobile]);
 
   return (
     <nav className="w-full h-[101px] bg-gradient-to-r from-[#193759] via-[#27548A] to-[#27548A] px-10 flex items-center justify-between relative z-50">
@@ -70,10 +70,22 @@ export default function Navbar() {
       <div className="flex space-x-8 items-center relative">
         {navLinks.map((link) =>
           link.hasDropdown ? (
-            <div key={link.href} className="relative" ref={dropdownRef}>
-              <button
-                onClick={handleServiceClick}
-                className={`text-2xl font-medium focus:outline-none flex items-center gap-1 cursor-pointer ${
+            <div
+              key={link.href}
+              className="relative group"
+              ref={dropdownRef}
+              onMouseEnter={() => !isMobile && setDropdownOpen(true)}
+              onMouseLeave={() => !isMobile && setDropdownOpen(false)}
+            >
+              <Link
+                href={link.href}
+                onClick={(e) => {
+                  if (isMobile) {
+                    e.preventDefault(); // prevent redirect on first tap
+                    setDropdownOpen((prev) => !prev);
+                  }
+                }}
+                className={`text-2xl font-light flex items-center gap-1 cursor-pointer ${
                   pathname.startsWith("/services")
                     ? "text-[#EAB919] font-bold"
                     : "text-white"
@@ -90,17 +102,21 @@ export default function Navbar() {
                   viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19 9l-7 7-7-7"
+                  />
                 </svg>
-              </button>
+              </Link>
 
               {dropdownOpen && (
-                <div className="absolute top-full left-0 mt-2 w-48 bg-[#27548A] rounded-md shadow-lg z-50">
+                <div className="absolute top-full left-0 mt-0 group-hover:block w-48 bg-[#27548A] rounded-md shadow-lg z-50">
                   {serviceDropdown.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="block px-4 py-2 text-white hover:bg-[#EAB919] hover:text-[#193759] transition-colors duration-200 rounded-md cursor-pointer"
+                      className="block px-4 py-2 text-white hover:bg-[#EAB919] hover:text-[#193759] transition-colors duration-200 rounded-md"
                       onClick={() => setDropdownOpen(false)}
                     >
                       {item.label}
@@ -113,10 +129,10 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`text-2xl font-medium ${
+              className={`text-2xl ${
                 pathname === link.href
-                  ? "text-[#EAB919] font-bold"
-                  : "text-white"
+                  ? "text-[#EAB919] font-medium"
+                  : "text-white font-light"
               } hover:text-[#EAB919] transition-colors duration-200`}
             >
               {link.label}
