@@ -128,26 +128,21 @@ export default function HomePage() {
       <section className="py-16 px-4 bg-[#F5F5F5] text-[#27548A]">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl font-semibold mb-12">Our Services</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {services.map((service, index) => (
-              <Link
-                key={index}
-                href={service.href}
-                className="flex flex-col items-center group"
-              >
-                <div className="w-36 h-36 bg-[#27548A] rounded-[20px] flex items-center justify-center mb-4 transition-transform group-hover:scale-105">
-                  <Image
-                    src={`/${service.icon}`} // Make sure icon has a leading slash
-                    alt={service.title}
-                    width={20}
-                    height={20}
-                    className="w-20 h-20"
-                  />
-                </div>
-                <h3 className="text-xl font-medium group-hover:no-underline">
-                  {service.title}
-                </h3>
-              </Link>
+              <div key={index} className="flex flex-col items-center">
+                <Link href={service.href} className="group">
+                  <div className="w-36 h-36 bg-[#27548A] rounded-[20px] flex items-center justify-center mb-4 transition-transform group-hover:scale-105">
+                    <Image
+                      src={`/${service.icon}`}
+                      alt={service.title}
+                      width={64}
+                      height={64}
+                    />
+                  </div>
+                </Link>
+                <h3 className="text-xl font-medium">{service.title}</h3>
+              </div>
             ))}
           </div>
         </div>
