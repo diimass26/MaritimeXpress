@@ -1,13 +1,16 @@
+import Image from "next/image";
+
 export default function SeaFreightPage() {
   return (
     <main>
       {/* Hero Section */}
       <section className="relative w-full h-96">
         {/* Background image */}
-        <img
+        <Image
           src="/hero-sea-freight.jpg"
           alt="Sea Freight Hero"
-          className="w-full h-full object-cover"
+          fill
+          className="object-cover"
         />
 
         {/* Overlay */}
@@ -38,10 +41,12 @@ export default function SeaFreightPage() {
       {/* FCL Block */}
       <div className="relative w-full h-64 rounded-lg overflow-hidden">
         <div className="absolute inset-0 bg-[#27548A]" />
-        <img
+        <Image
           src="/FCL.png"
           alt="FCL"
-          className="absolute left-0 top-0 w-[500px] h-64 object-cover"
+          width={500}
+          height={64}
+          className="absolute left-0 top-0 object-cover"
         />
         <div className="absolute left-[520px] top-[26px] pr-6 text-white max-w-[460px]">
           <h3 className="text-2xl font-medium font-['Inter'] mb-3">
@@ -57,10 +62,12 @@ export default function SeaFreightPage() {
       {/* LCL Block */}
       <div className="relative w-full h-64 rounded-lg overflow-hidden">
         <div className="absolute inset-0 bg-[#27548A]" />
-        <img
+        <Image
           src="/LCL.png"
           alt="LCL"
-          className="absolute right-0 top-0 w-[500px] h-64 object-cover"
+          width={500}
+          height={64}
+          className="absolute right-0 top-0 object-cover"
         />
         <div className="absolute left-[38px] top-[26px] pr-6 text-white max-w-[460px]">
           <h3 className="text-2xl font-medium font-['Inter'] mb-3">

@@ -6,7 +6,7 @@ import L from 'leaflet';
 import { useEffect } from 'react';
 
 // Fix default icon
-delete (L.Icon.Default as any).prototype._getIconUrl;
+delete (L.Icon.Default as unknown as { _getIconUrl?: () => void })._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: '/leaflet/marker-icon-2x.png',
   iconUrl: '/leaflet/marker-icon.png',

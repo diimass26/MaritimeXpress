@@ -1,12 +1,15 @@
+import Image from "next/image";
+
 export default function ServicePage() {
   return (
     <>
       {/* Hero Section */}
       <section className="relative w-full h-[720px]">
-        <img
+        <Image
           src="/hero-services.jpg"
           alt="Service Hero"
-          className="w-full h-full object-cover"
+          fill
+          className="object-cover"
         />
         <div className="absolute inset-0 bg-[#393533] opacity-60" />
         <div className="absolute inset-0 flex flex-col justify-center items-center text-white text-center px-4">

@@ -1,13 +1,16 @@
+import Image from "next/image";
+
 export default function CustomsClearance() {
   return (
     <main>
       {/* Hero Section */}
       <section className="relative w-full h-96">
         {/* Background image */}
-        <img
+        <Image
           src="/hero-customs-clearance.jpg"
           alt="Customs Clearance Hero"
-          className="w-full h-full object-cover"
+          fill
+          className="object-cover"
         />
 
         {/* Overlay */}
@@ -40,8 +43,8 @@ export default function CustomsClearance() {
         <div className="space-y-12">
           {/* Pemeriksaan Dokumen */}
           <div className="flex items-start gap-6">
-            <div className="w-24 h-24 shrink-0 bg-[#f5f5f5] flex items-center justify-center">
-              <img src="/dokumen.png" alt="Pemeriksaan Dokumen" className="max-w-full max-h-full object-contain" />
+            <div className="w-24 h-24 shrink-0 bg-[#f5f5f5] flex items-center justify-center relative">
+              <Image src="/dokumen.png" alt="Pemeriksaan Dokumen" fill className="object-contain" />
             </div>
             <div>
               <h3 className="text-2xl font-medium text-black">Pemeriksaan Dokumen</h3>
@@ -53,8 +56,8 @@ export default function CustomsClearance() {
 
           {/* Perhitungan Pajak */}
           <div className="flex items-start gap-6">
-            <div className="w-24 h-24 shrink-0 bg-[#f5f5f5] flex items-center justify-center">
-              <img src="/pajak.png" alt="Perhitungan Pajak" className="max-w-full max-h-full object-contain" />
+            <div className="w-24 h-24 shrink-0 bg-[#f5f5f5] flex items-center justify-center relative">
+              <Image src="/pajak.png" alt="Perhitungan Pajak" fill className="object-contain" />
             </div>
             <div>
               <h3 className="text-2xl font-medium text-black">Perhitungan Pajak & Bea Cukai</h3>
@@ -66,8 +69,8 @@ export default function CustomsClearance() {
 
           {/* Pemeriksaan Fisik Barang */}
           <div className="flex items-start gap-6">
-            <div className="w-24 h-24 shrink-0 bg-[#f5f5f5] flex items-center justify-center">
-              <img src="/inspeksi.png" alt="Pemeriksaan Fisik" className="max-w-full max-h-full object-contain" />
+            <div className="w-24 h-24 shrink-0 bg-[#f5f5f5] flex items-center justify-center relative">
+              <Image src="/inspeksi.png" alt="Pemeriksaan Fisik" fill className="object-contain" />
             </div>
             <div>
               <h3 className="text-2xl font-medium text-black">Pemeriksaan Fisik Barang</h3>

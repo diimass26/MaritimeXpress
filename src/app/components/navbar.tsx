@@ -87,7 +87,7 @@ export default function Navbar() {
                 }}
                 className={`text-2xl font-light flex items-center gap-1 cursor-pointer ${
                   pathname.startsWith("/services")
-                    ? "text-[#EAB919] font-bold"
+                    ? "text-[#EAB919] font-medium"
                     : "text-white"
                 } hover:text-[#EAB919] transition-colors duration-200`}
               >
@@ -129,10 +129,10 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`text-2xl ${
+              className={`text-2xl font-light ${
                 pathname === link.href
                   ? "text-[#EAB919] font-medium"
-                  : "text-white font-light"
+                  : "text-white"
               } hover:text-[#EAB919] transition-colors duration-200`}
             >
               {link.label}
