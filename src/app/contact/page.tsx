@@ -28,7 +28,7 @@ export default function ContactPage() {
           </div>
           <div>
             <label className="block text-xl mb-1">Message</label>
-            <textarea className="w-full bg-transparent border-b border-white outline-none py-1 resize-none h-24" />
+            <textarea className="w-full min-h-[32px] bg-transparent border-b border-white outline-none resize-y py-1 h-24" />
           </div>
           <button className="w-48 mt-4 bg-yellow-500 text-black font-medium py-2 hover:brightness-90 transition-all">
             SEND MESSAGE
