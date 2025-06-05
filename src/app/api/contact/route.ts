@@ -10,7 +10,11 @@ export async function POST(req: Request) {
     const { name, email, phone, subject, message } = body;
 
     if (!name || !email || !phone || !subject || !message) {
-      return NextResponse.json({ error: "Semua field harus diisi." }, { status: 400 });
+        return NextResponse.json({ error: "Semua field harus diisi." }, { status: 400 });
+    }
+
+    if ([name, email, phone, subject, message].some(field => !field?.trim())) {
+        return NextResponse.json({ error: "Semua field harus diisi." }, { status: 400 });
     }
 
     const newMessage = new ContactMessage({ name, email, phone, subject, message });

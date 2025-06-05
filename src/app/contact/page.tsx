@@ -98,7 +98,13 @@ export default function ContactPage() {
           </div>
           <div>
             <label className="block text-xl mb-1">Message</label>
-            <textarea className="w-full min-h-[32px] bg-transparent border-b border-white outline-none resize-y py-1 h-24" />
+            <textarea
+              name="message"
+              value={form.message}
+              onChange={handleChange}
+              className="w-full min-h-[32px] bg-transparent border-b border-white outline-none resize-y py-1 h-24"
+              required
+            />
           </div>
           <button
             type="submit"
@@ -162,6 +168,15 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
+      <style jsx>{`
+      input:-webkit-autofill,
+      textarea:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0px 1000px #27548A inset !important;
+        -webkit-text-fill-color: white !important;
+        caret-color: white !important;
+        transition: background-color 5000s ease-in-out 0s;
+      }
+    `}</style>
     </section>
   );
 }

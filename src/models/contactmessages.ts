@@ -33,4 +33,4 @@ const contactMessageSchema = new mongoose.Schema({
 });
 
 export default mongoose.models.ContactMessage ||
-  mongoose.model("contact_message", contactMessageSchema);
+  mongoose.model("ContactMessage", contactMessageSchema);
