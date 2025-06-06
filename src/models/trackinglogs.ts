@@ -4,6 +4,7 @@ const logSchema = new mongoose.Schema({
   status: String,
   location: String,
   date: Date,
+  status_type: Number,
 });
 
 const trackingSchema = new mongoose.Schema({

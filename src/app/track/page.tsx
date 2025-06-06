@@ -10,6 +10,7 @@ type Log = {
   status: string;
   location: string;
   date: string;
+  status_type: number,
 };
 
 type TrackingData = {
@@ -21,11 +22,17 @@ type TrackingData = {
 type ProgressStage = "Order Received" | "Departure" | "Arrived";
 type BadgeStatus = "on progress" | "completed";
 
-function detectProgressStageFromStatus(status: string): ProgressStage {
-  const s = status.toLowerCase();
-  if (/(tiba|sampai|diterima)/.test(s)) return "Arrived";
-  if (/(dikirim|dalam perjalanan|menuju|berangkat)/.test(s)) return "Departure";
-  return "Order Received";
+function mapStatusTypeToProgressStage(status_type: number): ProgressStage {
+  switch (status_type) {
+    case 0:
+      return "Order Received";
+    case 1:
+      return "Departure";
+    case 2:
+      return "Arrived";
+    default:
+      return "Order Received";
+  }
 }
 
 export default function TrackPage() {
@@ -54,11 +61,19 @@ export default function TrackPage() {
   };
 
   // Status & Progress Stage Detection
-  const lastStatus = trackingData?.logs[trackingData.logs.length - 1]?.status || "";
-  const currentStage = detectProgressStageFromStatus(lastStatus);
-  const badgeStatus: BadgeStatus = currentStage === "Arrived" ? "completed" : "on progress";
+  const lastLog = trackingData?.logs.reduce((lastest, current) => 
+    new Date(current.date) > new Date(lastest.date) ? current : lastest
+  , trackingData.logs[0]);
+
+  console.log("Last Log:", lastLog);
+
+  const currentStage = lastLog ? mapStatusTypeToProgressStage(lastLog.status_type) : "Order Received";
+  const badgeStatus: BadgeStatus =
+    currentStage === "Arrived" && lastLog?.status === "Paket telah diterima"
+      ? "completed" : "on progress";
 
   const stageIndex = ["Order Received", "Departure", "Arrived"].indexOf(currentStage);
+  const isDelivered = lastLog?.status === "Paket telah diterima";
 
   return (
     <main className="max-w-7xl mx-auto px-6 py-10">
@@ -100,8 +115,8 @@ export default function TrackPage() {
               <span
                 className={`${
                   badgeStatus === "completed"
-                    ? "bg-green-400 text-black"
-                    : "bg-yellow-400 text-black"
+                    ? "bg-[#278A2C] text-white"
+                    : "bg-[#EAB919] text-black"
                 } px-4 py-1 rounded font-semibold`}
               >
                 {badgeStatus === "completed" ? "Completed" : "On Progress"}
@@ -116,7 +131,8 @@ export default function TrackPage() {
                   <div key={i} className="flex flex-col items-center w-1/3">
                     <div
                       className={`w-6 h-6 rounded-full ${
-                        i <= stageIndex ? "bg-[#EAB919]" : "bg-gray-300"
+                        i < stageIndex || (i === stageIndex && isDelivered) ? "bg-[#278A2C]"
+                        : i === stageIndex ? "bg-[#EAB919]" : "bg-[#27548A]"
                       } z-10`}
                     />
                     <p className="text-sm mt-2 text-center">{label}</p>

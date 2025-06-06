@@ -22,3 +22,18 @@ export async function GET(req: Request) {
 
   return NextResponse.json(entry);
 }
+
+export async function POST(req: Request) {
+  try {
+    await connectDB();
+    const body = await req.json();
+    const newTrackingEntry = await TrackingEntry.create(body);
+    return Response.json(newTrackingEntry, { status: 201 });
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      return Response.json({ error: err.message }, { status: 400 });
+    } else {
+      return Response.json("Unexpected error");
+    }
+  } 
+}
