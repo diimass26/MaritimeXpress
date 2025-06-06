@@ -42,9 +42,14 @@ export default function TrackPage() {
 
       setTrackingData(data);
       setError("");
-    } catch (err: any) {
-      setTrackingData(null);
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setTrackingData(null);
+        setError(err.message);
+      } else {
+        setTrackingData(null);
+        setError("Unexpected error");
+      }
     }
   };
 
