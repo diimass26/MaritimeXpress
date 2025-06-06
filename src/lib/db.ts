@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.nluyau9.mongodb.net/maritimexpress_db?retryWrites=true&w=majority&appName=Cluster0`;
+const username = encodeURIComponent(process.env.DB_USERNAME || "");
+const password = encodeURIComponent(process.env.DB_PASSWORD || "");
+const MONGODB_URI = `mongodb+srv://${username}:${password}@cluster0.nluyau9.mongodb.net/maritimexpress_db?retryWrites=true&w=majority&appName=Cluster0`;
 
 if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable');
