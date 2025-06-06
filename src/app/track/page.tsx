@@ -131,8 +131,8 @@ export default function TrackPage() {
                   <div key={i} className="flex flex-col items-center w-1/3">
                     <div
                       className={`w-6 h-6 rounded-full ${
-                        i < stageIndex || (i === stageIndex && isDelivered) ? "bg-[#278A2C]"
-                        : i === stageIndex ? "bg-[#EAB919]" : "bg-[#27548A]"
+                        i < stageIndex ? "bg-[#EAB919]"
+                        : i === stageIndex && isDelivered ? "bg-[#278A2C]" : "bg-[#888685]"
                       } z-10`}
                     />
                     <p className="text-sm mt-2 text-center">{label}</p>
