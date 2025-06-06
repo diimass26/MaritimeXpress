@@ -12,21 +12,21 @@ export default function Footer() {
         <div></div>
 
         {/* Kolom 1: Menu Navigasi */}
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 w-full">
           <h4 className="text-xl font-semibold">Menu</h4>
-          <Link href="/" className="hover:underline">Home</Link>
-          <Link href="/services" className="hover:underline">Service</Link>
-          <Link href="/track" className="hover:underline">Track</Link>
-          <Link href="/about" className="hover:underline">About</Link>
-          <Link href="/contact" className="hover:underline">Contact</Link>
+          <Link href="/" className="w-max hover:underline">Home</Link>
+          <Link href="/services" className="w-max hover:underline">Service</Link>
+          <Link href="/track" className="w-max hover:underline">Track</Link>
+          <Link href="/about" className="w-max hover:underline">About</Link>
+          <Link href="/contact" className="w-max hover:underline">Contact</Link>
         </div>
 
         {/* Kolom 2: Layanan */}
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 w-full">
           <h4 className="text-xl font-semibold">Service</h4>
-          <Link href="/services/sea-freight" className="hover:underline">Sea Freight</Link>
-          <Link href="/services/customs-clearance" className="hover:underline">Customs Clearance</Link>
-          <Link href="/services/warehousing" className="hover:underline">Warehousing</Link>
+          <Link href="/services/sea-freight" className="w-max hover:underline">Sea Freight</Link>
+          <Link href="/services/customs-clearance" className="w-max hover:underline">Customs Clearance</Link>
+          <Link href="/services/warehousing" className="w-max hover:underline">Warehousing</Link>
         </div>
 
         {/* Kolom 3: Kontak, Logo, Sosial Media */}
