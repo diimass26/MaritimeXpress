@@ -1,10 +1,60 @@
+"use client";
 import { Inconsolata } from "next/font/google";
+import { useState } from "react";
 
 const inconsolata = Inconsolata({
   subsets: ["latin"],
 });
 
+type Log = {
+  status: string;
+  location: string;
+  date: string;
+};
+
+type TrackingData = {
+  trackingNumber: string;
+  status?: string;
+  logs: Log[];
+};
+
+type ProgressStage = "Order Received" | "Departure" | "Arrived";
+type BadgeStatus = "on progress" | "completed";
+
+function detectProgressStageFromStatus(status: string): ProgressStage {
+  const s = status.toLowerCase();
+  if (/(tiba|sampai|diterima)/.test(s)) return "Arrived";
+  if (/(dikirim|dalam perjalanan|menuju|berangkat)/.test(s)) return "Departure";
+  return "Order Received";
+}
+
 export default function TrackPage() {
+  const [trackingNumber, setTrackingNumber] = useState("");
+  const [trackingData, setTrackingData] = useState<TrackingData | null>(null);
+  const [error, setError] = useState("");
+
+  const handleSearch = async () => {
+    try {
+      const res = await fetch(`/api/track?resi=${trackingNumber}`);
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error || "Gagal memuat data tracking");
+
+      setTrackingData(data);
+      setError("");
+    } catch (err: any) {
+      setTrackingData(null);
+      setError(err.message);
+    }
+  };
+
+  // Status & Progress Stage Detection
+  const lastStatus = trackingData?.logs[trackingData.logs.length - 1]?.status || "";
+  const currentStage = detectProgressStageFromStatus(lastStatus);
+  const badgeStatus: BadgeStatus = currentStage === "Arrived" ? "completed" : "on progress";
+
+  const stageIndex = ["Order Received", "Departure", "Arrived"].indexOf(currentStage);
+
   return (
     <main className="max-w-7xl mx-auto px-6 py-10">
       {/* Header */}
@@ -12,89 +62,105 @@ export default function TrackPage() {
         <h1 className="text-3xl md:text-4xl font-bold">Order Tracking</h1>
         <p className="text-gray-600">Track your order</p>
 
-        <div className="mt-6 max-w-md mx-auto">
+        <div className="mt-6 max-w-md mx-auto flex gap-2">
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="Masukkan Nomor Resi"
+            value={trackingNumber}
+            onChange={(e) => setTrackingNumber(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded bg-[#0C2F5A] text-white focus:outline-none"
           />
+          <button
+            onClick={handleSearch}
+            className="px-4 py-2 bg-yellow-400 text-black font-semibold rounded"
+          >
+            Cari
+          </button>
         </div>
+        {error && <p className="text-red-500 mt-2">{error}</p>}
       </section>
 
       {/* Order ID + Status */}
-      <div className="border-t border-gray-300 pt-6 mb-10">
-        <div className="flex items-center gap-4 mb-6">
-            {/* Order ID Block */}
-            <div className="text-sm sm:text-base text-gray-700">
+      {trackingData && (
+        <>
+          <div className="border-t border-gray-300 pt-6 mb-10">
+            <div className="flex items-center gap-4 mb-6">
+              {/* Order ID Block */}
+              <div className="text-sm sm:text-base text-gray-700">
                 <p className="font-semibold">Order ID</p>
-                <p>MX-TJPJ-24041601</p>
+                <p>{trackingData.trackingNumber}</p>
+              </div>
+
+              {/* Status Badge */}
+              <span
+                className={`${
+                  badgeStatus === "completed"
+                    ? "bg-green-400 text-black"
+                    : "bg-yellow-400 text-black"
+                } px-4 py-1 rounded font-semibold`}
+              >
+                {badgeStatus === "completed" ? "Completed" : "On Progress"}
+              </span>
             </div>
 
-            {/* Status Badge */}
-            <span className="bg-yellow-400 text-black px-4 py-1 rounded font-semibold">
-                Complete
-            </span>
-        </div>
-
-        {/* Progress Bar */}
-        <div className="relative flex items-center justify-between mb-10">
-        {/* Line positioned through the center of dots only */}
-        <div className="absolute left-1/6 right-1/6 h-1 bg-gray-300 z-0 top-2.5" />
-
-        <div className="z-10 flex justify-between w-full">
-          {["Order Received", "Departure", "Arrival"].map((label, i) => (
-            <div key={i} className="flex flex-col items-center w-1/3">
-              {/* Dot */}
-              <div
-                className={`w-6 h-6 rounded-full ${
-                  i === 2 ? "bg-[#EAB919]" : "bg-[#27548A]"
-                } z-10`}
-              />
-              {/* Label */}
-              <p className="text-sm mt-2 text-center">{label}</p>
+            {/* Progress Bar */}
+            <div className="relative flex items-center justify-between mb-10">
+              <div className="absolute left-1/6 right-1/6 h-1 bg-gray-300 z-0 top-2.5" />
+              <div className="z-10 flex justify-between w-full">
+                {["Order Received", "Departure", "Arrived"].map((label, i) => (
+                  <div key={i} className="flex flex-col items-center w-1/3">
+                    <div
+                      className={`w-6 h-6 rounded-full ${
+                        i <= stageIndex ? "bg-[#EAB919]" : "bg-gray-300"
+                      } z-10`}
+                    />
+                    <p className="text-sm mt-2 text-center">{label}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
-        </div>
-      </div>
-      </div>
+          </div>
 
-      {/* Tracking Table */}
-      <div className="overflow-x-auto">
-        <table className="w-full text-white text-sm border-collapse border-spacing-0" style={{ backgroundColor: '#27548A' }}>
-          <thead>
-            <tr>
-              <th className="border border-l-0 border-t-0 border-white px-4 py-2 text-left">Status</th>
-              <th className="border border-t-0 border-white px-4 py-2 text-left">Location</th>
-              <th className="border border-r-0 border-t-0 border-white px-4 py-2 text-left">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {[
-              ["Order diterima", "Tanjungpinang", "16 Maret 2025, 08:00"],
-              ["Menunggu penjemputan", "Tanjungpinang", "16 Maret 2025, 08:10"],
-              ["Paket dijemput", "Tanjungpinang", "16 Maret 2025, 10:20"],
-              ["Paket diterima di gudang", "Tanjungpinang Hub", "16 Maret 2025, 12:00"],
-              ["Paket sedang diproses", "Tanjungpinang Hub", "16 Maret 2025, 12:50"],
-              ["Paket dalam pengiriman menuju Tanjungpinang Port", "Tanjungpinang Hub", "16 Maret 2025, 15:10"],
-              ["Paket dalam pengiriman dari Tanjungpinang Port", "Tanjungpinang Port", "16 Maret 2025, 15:30"],
-              ["Paket tiba di pelabuhan transit", "Surabaya Port", "18 Maret 2025, 02:10"],
-              ["Proses bongkar muat", "Surabaya Port", "18 Maret 2025, 07:40"],
-              ["Transit menuju pelabuhan akhir", "Surabaya Port", "18 Maret 2025, 09:00"],
-              ["Paket tiba di pelabuhan tujuan", "Jayapura Port", "20 Maret 2025, 19:20"],
-              ["Paket dalam pengiriman menuju Jayapura Hub", "Jayapura Port", "20 Maret 2025, 20:45"],
-              ["Paket diterima digudang", "Jayapura Hub", "20 Maret 2025, 21:50"],
-              ["Paket dalam pengantaran menuju alamat penerima", "Jayapura Hub", "21 Maret 2025, 08:10"],
-              ["Paket telah diterima", "Jayapura", "21 Maret 2025, 09:50"]
-            ].map(([status, location, date], i) => (
-              <tr key={i} className={`${inconsolata.className}`}>
-                <td className="border-r border-white px-4 py-2 align-top font-medium">{status}</td>
-                <td className="border-l border-r px-4 border-white py-2 align-top font-medium">{location}</td>
-                <td className="border-l border-white px-4 py-2 align-top font-medium">{date}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          {/* Tracking Table */}
+          <div className="overflow-x-auto">
+            <table
+              className="w-full text-white text-sm border-collapse border-spacing-0"
+              style={{ backgroundColor: "#27548A" }}
+            >
+              <thead>
+                <tr>
+                  <th className="border border-l-0 border-t-0 border-white px-4 py-2 text-left">
+                    Status
+                  </th>
+                  <th className="border border-t-0 border-white px-4 py-2 text-left">
+                    Location
+                  </th>
+                  <th className="border border-r-0 border-t-0 border-white px-4 py-2 text-left">
+                    Date
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {trackingData.logs.map((log: Log, i: number) => (
+                  <tr key={i} className={`${inconsolata.className}`}>
+                    <td className="border-r border-white px-4 py-2 align-top font-medium">
+                      {log.status}
+                    </td>
+                    <td className="border-l border-r px-4 border-white py-2 align-top font-medium">
+                      {log.location}
+                    </td>
+                    <td className="border-l border-white px-4 py-2 align-top font-medium">
+                      {new Date(log.date).toLocaleString("id-ID", {
+                        hour12: false,
+                      })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
     </main>
   );
 }
