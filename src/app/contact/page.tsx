@@ -13,38 +13,84 @@ export default function ContactPage() {
     message: "",
   });
 
+  // State untuk error validasi input email & phone
+  const [errors, setErrors] = useState({
+    email: "",
+    phone: "",
+  });
+
+  // Fungsi validasi input email dan phone
+  const validate = (name: string, value: string) => {
+    let error = "";
+
+    if (name === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(value)) {
+        error = "Masukkan email yang valid.";
+      }
+    }
+
+    if (name === "phone") {
+      const phoneRegex = /^[0-9]+$/;
+      if (!phoneRegex.test(value)) {
+        error = "Hanya boleh angka.";
+      } else if (value.length < 10) {
+        error = "Nomor telepon minimal 10 digit.";
+      }
+    }
+
+    setErrors((prev) => ({ ...prev, [name]: error }));
+  };
+
   // handle perubahan input
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+
+    // Validasi saat pengguna mengetik
+    validate(name, value);
   };
 
   // handle submit form
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  try {
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Gagal kirim pesan");
+    e.preventDefault();
 
-    alert("Pesan berhasil dikirim!");
-    setForm({ name: "", email: "", phone: "", subject: "", message: "" });
-  } catch (error) {
-    if (error instanceof Error) {
-      alert("Error: " + error.message);
-    } else {
-      alert("Unknown error occurred");
+    // Cek error sebelum submit
+    if (errors.email || errors.phone) {
+      alert("Periksa kembali input yang tidak valid.");
+      return;
     }
-  }
-};
 
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Gagal kirim pesan");
+
+      alert("Pesan berhasil dikirim!");
+      setForm({ name: "", email: "", phone: "", subject: "", message: "" });
+
+      // 🔧 Added: reset error setelah submit berhasil
+      setErrors({ email: "", phone: "" });
+    } catch (error) {
+      if (error instanceof Error) {
+        alert("Error: " + error.message);
+      } else {
+        alert("Unknown error occurred");
+      }
+    }
+  };
 
   return (
     <section className="w-full bg-white px-12 md:px-24 py-20 flex flex-col items-center">
-      <h2 className="text-4xl font-medium text-[#27548A] text-center mb-12">CONTACT US</h2>
+      <h2 className="text-4xl font-medium text-[#27548A] text-center mb-12">
+        CONTACT US
+      </h2>
 
       <div className="w-full max-w-7xl flex flex-col md:flex-row gap-8">
         {/* Form */}
@@ -73,6 +119,10 @@ export default function ContactPage() {
               className="w-full bg-transparent border-b border-white outline-none py-1"
               required
             />
+            {/* Tampilkan pesan error jika email tidak valid */}
+            {errors.email && (
+              <p className="text-red-400 text-sm mt-1">{errors.email}</p>
+            )}
           </div>
           <div>
             <label className="block text-xl mb-1">Phone</label>
@@ -84,6 +134,10 @@ export default function ContactPage() {
               className="w-full bg-transparent border-b border-white outline-none py-1"
               required
             />
+            {/* Tampilkan pesan error jika phone tidak valid */}
+            {errors.phone && (
+              <p className="text-red-400 text-sm mt-1">{errors.phone}</p>
+            )}
           </div>
           <div>
             <label className="block text-xl mb-1">Subject</label>
@@ -114,7 +168,7 @@ export default function ContactPage() {
           </button>
         </form>
 
-         {/* Alamat Kantor */}
+        {/* Alamat Kantor */}
         <div className="bg-[#27548A] text-white p-8 flex-[2] shadow-lg">
           <h3 className="text-4xl font-normal text-center mb-6">Our Address</h3>
           <div className="flex flex-col gap-4">
@@ -168,15 +222,16 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
+
       <style jsx>{`
-      input:-webkit-autofill,
-      textarea:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0px 1000px #27548A inset !important;
-        -webkit-text-fill-color: white !important;
-        caret-color: white !important;
-        transition: background-color 5000s ease-in-out 0s;
-      }
-    `}</style>
+        input:-webkit-autofill,
+        textarea:-webkit-autofill {
+          -webkit-box-shadow: 0 0 0px 1000px #27548A inset !important;
+          -webkit-text-fill-color: white !important;
+          caret-color: white !important;
+          transition: background-color 5000s ease-in-out 0s;
+        }
+      `}</style>
     </section>
   );
 }
