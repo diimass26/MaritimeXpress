@@ -9,12 +9,14 @@ export async function GET(req: Request) {
 
   const { searchParams } = new URL(req.url);
   const resi = searchParams.get("resi");
+  const pattern = resi?.split('').join('[^a-zA-Z0-9]*');
+  const regex = new RegExp(`^${pattern}$`, 'i');
 
   if (!resi) {
     return NextResponse.json({ error: "Nomor resi wajib diisi" }, { status: 400 });
   }
 
-  const entry = await TrackingEntry.findOne({ trackingNumber: resi });
+  const entry = await TrackingEntry.findOne({ trackingNumber: { $regex: regex } });
 
   if (!entry) {
     return NextResponse.json({ error: "Nomor resi tidak ditemukan" }, { status: 404 });
