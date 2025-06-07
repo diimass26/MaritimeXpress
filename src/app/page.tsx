@@ -172,7 +172,7 @@ export default function HomePage() {
       </div>
 
       {/* Map Section */}
-      <div className="md:flex-1 h-[400px] md:h-auto">
+      <div className="md:flex-1 h-[400px] md:h-auto z-0">
         <MapSection />
       </div>
     </section>

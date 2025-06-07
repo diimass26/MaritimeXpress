@@ -54,7 +54,7 @@ export default function Navbar() {
   }, [dropdownOpen, isMobile]);
 
   return (
-    <nav className="w-full h-[101px] bg-gradient-to-r from-[#193759] via-[#27548A] to-[#27548A] px-10 flex items-center justify-between relative z-50">
+    <nav className="sticky top-0 w-full h-[101px] bg-gradient-to-r from-[#193759] via-[#27548A] to-[#27548A] px-10 flex items-center justify-between z-50">
       {/* Logo */}
       <div className="w-[371px] h-[45px] relative">
         <Image
