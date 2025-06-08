@@ -1,6 +1,42 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 export default function ServicePage() {
+  const content = useRef<HTMLElement | null>(null);
+  const [scrolledToContent, setScrolledToContent] = useState(false);
+
+  // Scroll button
+  useEffect(() => {
+    const handleScroll = () => {
+      const contentSection = content.current;
+      if (!contentSection) return;
+      
+      const topSection = contentSection.offsetTop - 101;
+      const scrollPosition = window.scrollY;
+
+      setScrolledToContent(scrollPosition >= topSection - 100);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleClick = () => {
+    if (scrolledToContent) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      const contentSection = content.current;
+      if (contentSection) {
+        window.scrollTo({
+          top: contentSection.offsetTop - 101,
+          behavior: 'smooth',
+        });
+      }
+    }
+  };
+
   return (
     <>
       {/* Hero Section */}
@@ -21,7 +57,7 @@ export default function ServicePage() {
       </section>
 
       {/* Our Services Section */}
-      <section className="w-full max-w-6xl py-20 px-4 mx-auto">
+      <section ref={content} className="w-full max-w-6xl py-20 px-4 mx-auto">
         <h2 className="text-4xl font-semibold text-blue-900 text-center mb-12">
           Our Services
         </h2>
@@ -129,6 +165,21 @@ export default function ServicePage() {
 
         </div>
       </section>
+
+      {/* Scroll Down Button */}
+      <button
+        onClick={handleClick}
+        className="fixed bottom-6 right-6 z-40 bg-blue-900 text-white text-[1.5rem] p-4 w-16 h-16 rounded-full shadow-lg hover:bg-blue-700 transition-all"
+        aria-label={scrolledToContent ? "Scrolled to content" : "Scrolled to top"}
+      >
+        <span
+          className={`inline-block transition-transform duration-500 ease-in-out ${
+            scrolledToContent ? 'rotate-180' : 'rotate-0'
+          }`}
+        >
+          ↓
+        </span>
+      </button>
     </>
   );
 }
