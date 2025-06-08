@@ -34,8 +34,8 @@ export default function ContactPage() {
       const phoneRegex = /^[0-9]+$/;
       if (!phoneRegex.test(value)) {
         error = "Hanya boleh angka.";
-      } else if (value.length < 10) {
-        error = "Nomor telepon minimal 10 digit.";
+      } else if (value.length < 12) {
+        error = "Nomor telepon minimal 12 digit.";
       }
     }
 
