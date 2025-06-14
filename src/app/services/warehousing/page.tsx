@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image';
 import { useRef } from "react";
 import ScrollButton from '@/app/components/scroll-button';
 
@@ -15,11 +16,10 @@ export default function Warehousing() {
       {/* Hero Section */}
       <section ref={heroRef} className="relative w-full h-96">
         {/* Background image */}
-        <img
-          src="/hero-warehousing.jpg"
-          alt="Warehousing Hero"
-          className="w-full h-full object-cover"
-        />
+        <Image src="/hero-warehousing.jpg" 
+        alt="Warehousing Hero" 
+        fill 
+        className="object-cover" />
 
         {/* Overlay */}
         <div className="absolute inset-0 bg-stone-700/60" />
@@ -52,7 +52,7 @@ export default function Warehousing() {
           {/* Card 1 */}
           <div className="flex flex-col items-center gap-4">
             <div className="w-36 h-36 bg-[#27548A] rounded-[20px] flex items-center justify-center">
-              <img src="/sistem-manajemen-gudang.png" alt="Warehouse Management" className="w-20 h-20 object-contain" />
+              <Image src="/sistem-manajemen-gudang.png" alt="Warehouse Management" width={80} height={80} />
             </div>
             <p className="text-2xl font-extralight text-black">
               Sistem Manajemen Gudang Modern
@@ -62,7 +62,7 @@ export default function Warehousing() {
           {/* Card 2 */}
           <div className="flex flex-col items-center gap-4">
             <div className="w-36 h-36 bg-[#27548A] rounded-[20px] flex items-center justify-center">
-              <img src="/map-location-track.png" alt="Strategic Location" className="w-20 h-20 object-contain" />
+              <Image src="/map-location-track.png" alt="Strategic Location" width={80} height={80} />
             </div>
             <p className="text-2xl font-extralight text-black">
               Lokasi Strategis
@@ -72,7 +72,7 @@ export default function Warehousing() {
           {/* Card 3 */}
           <div className="flex flex-col items-center gap-4">
             <div className="w-36 h-36 bg-[#27548A] rounded-[20px] flex items-center justify-center">
-              <img src="/camera-cctv.png" alt="Security" className="w-20 h-20 object-contain" />
+              <Image src="/camera-cctv.png" alt="Security" width={80} height={80} />
             </div>
             <p className="text-2xl font-extralight text-black">
               Keamanan 24/7
@@ -82,7 +82,7 @@ export default function Warehousing() {
           {/* Card 4 */}
           <div className="flex flex-col items-center gap-4">
             <div className="w-36 h-36 bg-[#27548A] rounded-[20px] flex items-center justify-center">
-              <img src="/ac.png" alt="Cold Storage" className="w-20 h-20 object-contain" />
+              <Image src="/ac.png" alt="Cold Storage" width={80} height={80} />
             </div>
             <p className="text-2xl font-extralight text-black">
               Fasilitas Berpendingin & Custom Storage

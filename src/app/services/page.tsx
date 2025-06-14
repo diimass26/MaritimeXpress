@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import {useRef} from "react";
 import ScrollButton from '@/app/components/scroll-button';
 
 export default function ServicePage() {
