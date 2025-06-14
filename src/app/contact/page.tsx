@@ -1,7 +1,8 @@
 "use client"; // penting kalau pakai state dan event handler di app router
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
+import ScrollButton from '@/app/components/scroll-button';
 
 export default function ContactPage() {
   // state untuk input form
@@ -86,8 +87,11 @@ export default function ContactPage() {
     }
   };
 
+  const contactRef = useRef<HTMLElement | null>(null);
+
   return (
-    <section className="w-full bg-white px-12 md:px-24 py-20 flex flex-col items-center">
+    <>
+    <section ref={contactRef} id="contact" className="w-full bg-[#F3F3F3] px-12 md:px-24 py-20 flex flex-col items-center">
       <h2 className="text-4xl font-medium text-[#27548A] text-center mb-12">
         CONTACT US
       </h2>
@@ -233,5 +237,7 @@ export default function ContactPage() {
         }
       `}</style>
     </section>
+    <ScrollButton sections={[contactRef]} />
+    </>
   );
 }

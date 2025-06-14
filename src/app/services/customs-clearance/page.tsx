@@ -1,10 +1,21 @@
+'use client'
+
 import Image from "next/image";
+import { useRef } from "react";
+import ScrollButton from '@/app/components/scroll-button';
 
 export default function CustomsClearance() {
+
+  const heroRef = useRef<HTMLElement | null>(null);
+  const descriptionRef = useRef<HTMLElement | null>(null);
+  const servicesRef = useRef<HTMLElement | null>(null);
+  const benefitsRef = useRef<HTMLElement | null>(null);
+
+
   return (
     <main>
       {/* Hero Section */}
-      <section className="relative w-full h-96">
+      <section ref={heroRef} className="relative w-full h-96">
         {/* Background image */}
         <Image
           src="/hero-customs-clearance.jpg"
@@ -26,7 +37,7 @@ export default function CustomsClearance() {
       </section>
 
       {/* Description Section */}
-      <section className="relative w-full max-w-[1040px] mx-auto my-12 px-4">
+      <section ref={descriptionRef} className="relative w-full max-w-[1040px] mx-auto my-12 px-4">
         <h2 className="text-[#27548A] text-4xl font-semibold font-['Inter'] mb-3">
           Customs Clearance
         </h2>
@@ -37,7 +48,7 @@ export default function CustomsClearance() {
       </section>
 
       {/* Services Section*/}
-      <section className="max-w-[1040px] mx-auto px-4 py-16">
+      <section ref={servicesRef} className="max-w-[1040px] mx-auto px-4 py-16">
         <h2 className="text-4xl font-medium text-white bg-[#27548A] inline-block px-6 py-3 mb-12">Services</h2>
 
         <div className="space-y-12">
@@ -83,7 +94,7 @@ export default function CustomsClearance() {
       </section>
 
       {/* Benefits Section */}
-      <section className="bg-[#E2E2E2]/60 py-16 px-4 mb-20">
+      <section ref={benefitsRef} className="bg-[#E2E2E2]/60 py-16 px-4 mb-20">
         <h2 className="text-4xl font-medium text-[#27548A] text-center mb-16">Benefits</h2>
 
         <div className="max-w-[1200px] mx-auto grid gap-16 lg:grid-cols-2">
@@ -137,6 +148,7 @@ export default function CustomsClearance() {
         </div>
       </section>
 
+    <ScrollButton sections={[heroRef, descriptionRef, servicesRef, benefitsRef]} />
 
     </main>
   );

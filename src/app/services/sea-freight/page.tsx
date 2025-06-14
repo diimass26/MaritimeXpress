@@ -1,10 +1,20 @@
+'use client'
+
 import Image from "next/image";
+import { useRef } from "react";
+import ScrollButton from '@/app/components/scroll-button';
 
 export default function SeaFreightPage() {
+
+  const heroRef = useRef<HTMLElement | null>(null);
+  const descriptionRef = useRef<HTMLElement | null>(null);
+  const FclLclRef = useRef<HTMLElement | null>(null);
+  const tableRef = useRef<HTMLElement | null>(null);
+
   return (
     <main>
       {/* Hero Section */}
-      <section className="relative w-full h-96">
+      <section ref={heroRef} className="relative w-full h-96">
         {/* Background image */}
         <Image
           src="/hero-sea-freight.jpg"
@@ -26,7 +36,7 @@ export default function SeaFreightPage() {
       </section>
 
       {/* Description Section */}
-      <section className="relative w-full max-w-[1040px] mx-auto my-12 px-4">
+      <section ref={descriptionRef} className="relative w-full max-w-[1040px] mx-auto my-12 px-4">
         <h2 className="text-[#27548A] text-4xl font-semibold font-['Inter'] mb-3">
           Sea Freight
         </h2>
@@ -37,7 +47,7 @@ export default function SeaFreightPage() {
       </section>
 
       {/* FCL + LCL Section */}
-      <section className="w-full max-w-[1000px] mx-auto my-16 space-y-12 px-4">
+      <section ref={FclLclRef} className="w-full max-w-[1000px] mx-auto my-16 space-y-12 px-4">
       {/* FCL Block */}
       <div className="relative w-full h-64 rounded-lg overflow-hidden">
         <div className="absolute inset-0 bg-[#27548A]" />
@@ -81,7 +91,7 @@ export default function SeaFreightPage() {
       </div>
     </section>
 
-    <section className="max-w-[1000px] mx-auto my-16 px-4">
+    <section ref={tableRef} className="max-w-[1000px] mx-auto my-16 px-4">
       <div className="overflow-x-auto">
         <table className="table-fixed w-full text-white bg-[#27548A] text-center">
           <thead>
@@ -112,6 +122,7 @@ export default function SeaFreightPage() {
       </div>
     </section>
 
+    <ScrollButton sections={[heroRef, descriptionRef, FclLclRef, tableRef]} />
 
     </main>
   );

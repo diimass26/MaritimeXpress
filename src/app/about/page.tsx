@@ -1,46 +1,18 @@
 "use client"
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
+import ScrollButton from '@/app/components/scroll-button';
 
 export default function AboutPage() {
-  const content = useRef<HTMLElement | null>(null);
-  const [scrolledToContent, setScrolledToContent] = useState(false);
 
-  // Scroll button
-  useEffect(() => {
-    const handleScroll = () => {
-      const contentSection = content.current;
-      if (!contentSection) return;
-      
-      const topSection = contentSection.offsetTop - 101;
-      const scrollPosition = window.scrollY;
+  const heroRef = useRef<HTMLElement | null>(null);
+  const visiMisiRef = useRef<HTMLElement | null>(null);
 
-      setScrolledToContent(scrollPosition >= topSection - 100);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleClick = () => {
-    if (scrolledToContent) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      const contentSection = content.current;
-      if (contentSection) {
-        window.scrollTo({
-          top: contentSection.offsetTop - 101,
-          behavior: 'smooth',
-        });
-      }
-    }
-  };
-  
   return (
     <>
       {/* Hero Section */}
-      <section className="relative w-full h-[720px]">
+      <section ref={heroRef} className="relative w-full h-[720px]">
         <Image
           src="/hero-about.png"
           alt="About Hero"
@@ -67,7 +39,7 @@ export default function AboutPage() {
       </section>
 
       {/* Visi & Misi Section */}
-      <section ref={content} className="w-full py-20 px-4 bg-[#F5F5F5] flex flex-col items-center">
+      <section ref={visiMisiRef} className="w-full py-20 px-4 bg-[#F5F5F5] flex flex-col items-center">
       {/* Judul di luar card */}
       <h2 className="text-4xl font-semibold text-[#27548A] text-center mb-12">Visi & Misi</h2>
 
@@ -92,20 +64,8 @@ export default function AboutPage() {
       </div>
       </section>
 
-      {/* Scroll Down Button */}
-      <button
-        onClick={handleClick}
-        className="fixed bottom-6 right-6 z-40 bg-blue-900 text-white text-[1.5rem] p-4 w-16 h-16 rounded-full shadow-lg hover:bg-blue-700 transition-all"
-        aria-label={scrolledToContent ? "Scrolled to content" : "Scrolled to top"}
-      >
-        <span
-          className={`inline-block transition-transform duration-500 ease-in-out ${
-            scrolledToContent ? 'rotate-180' : 'rotate-0'
-          }`}
-        >
-          ↓
-        </span>
-      </button>
+    <ScrollButton sections={[heroRef, visiMisiRef]} />
+
     </>
   );
 }

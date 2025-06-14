@@ -3,9 +3,11 @@
 import Image from 'next/image';
 import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import ScrollButton from '@/app/components/scroll-button';
+
 
 const images = [
   '/cargo-image-1.png',
@@ -34,8 +36,6 @@ const services = [
 const MapSection = dynamic(() => import('@/app/components/map-section'), { ssr: false });
 
 export default function HomePage() {
-  const content = useRef<HTMLElement | null>(null);
-  const [scrolledToContent, setScrolledToContent] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const [sliderRef, slider] = useKeenSlider<HTMLDivElement>({
@@ -58,40 +58,14 @@ export default function HomePage() {
     return () => clearInterval(interval);
   }, [slider]);
 
-  // Scroll button
-  useEffect(() => {
-    const handleScroll = () => {
-      const contentSection = content.current;
-      if (!contentSection) return;
-      
-      const topSection = contentSection.offsetTop - 101;
-      const scrollPosition = window.scrollY;
-
-      setScrolledToContent(scrollPosition >= topSection - 100);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleClick = () => {
-    if (scrolledToContent) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      const contentSection = content.current;
-      if (contentSection) {
-        window.scrollTo({
-          top: contentSection.offsetTop - 101,
-          behavior: 'smooth',
-        });
-      }
-    }
-  };
+  const heroRef = useRef<HTMLElement | null>(null);
+  const servicesRef = useRef<HTMLElement | null>(null);
+  const areaRef = useRef<HTMLElement | null>(null);
 
   return (
     <main>
       {/* Hero Section */}
-      <section className="relative w-full h-screen overflow-hidden">
+      <section ref={heroRef} className="relative w-full h-screen overflow-hidden">
         {/* Carousel */}
         <div ref={sliderRef} className="keen-slider h-full">
           {images.map((src, index) => (
@@ -157,7 +131,7 @@ export default function HomePage() {
       </section>
 
       {/* Our Services Section */}
-      <section ref={content} className="py-16 px-4 bg-[#F5F5F5] text-[#27548A]">
+      <section ref={servicesRef} className="py-16 px-4 bg-[#F5F5F5] text-[#27548A]">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-4xl font-semibold mb-12">Our Services</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
@@ -181,7 +155,7 @@ export default function HomePage() {
       </section>
 
       {/* Area of Services Section */}
-      <section className="w-full max-w-6xl mx-auto py-16 px-6 flex flex-col md:flex-row items-start gap-12 justify-center">
+      <section ref={areaRef} className="w-full max-w-6xl mx-auto py-16 px-6 flex flex-col md:flex-row items-start gap-12 justify-center">
         {/* Text Content */}
         <div className="flex-1 max-w-md text-black font-extralight font-['Inter'] text-xl leading-relaxed">
           <h2 className="text-blue-900 text-4xl font-semibold mb-8 font-['Inter']">
@@ -208,20 +182,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Scroll Down Button */}
-      <button
-        onClick={handleClick}
-        className="fixed bottom-6 right-6 z-40 bg-blue-900 text-white text-[1.5rem] p-4 w-16 h-16 rounded-full shadow-lg hover:bg-blue-700 transition-all"
-        aria-label={scrolledToContent ? "Scrolled to content" : "Scrolled to top"}
-      >
-        <span
-          className={`inline-block transition-transform duration-500 ease-in-out ${
-            scrolledToContent ? 'rotate-180' : 'rotate-0'
-          }`}
-        >
-          ↓
-        </span>
-      </button>
+      <ScrollButton sections={[heroRef, servicesRef, areaRef]} />
+
     </main>
   );
 }

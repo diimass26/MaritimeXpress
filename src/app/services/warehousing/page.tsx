@@ -1,8 +1,19 @@
+'use client'
+
+import { useRef } from "react";
+import ScrollButton from '@/app/components/scroll-button';
+
 export default function Warehousing() {
+
+  const heroRef = useRef<HTMLElement | null>(null);
+  const descriptionRef = useRef<HTMLElement | null>(null);
+  const whyUsRef = useRef<HTMLElement | null>(null);
+  const businessRef = useRef<HTMLElement | null>(null);
+
   return (
     <main>
       {/* Hero Section */}
-      <section className="relative w-full h-96">
+      <section ref={heroRef} className="relative w-full h-96">
         {/* Background image */}
         <img
           src="/hero-warehousing.jpg"
@@ -23,7 +34,7 @@ export default function Warehousing() {
       </section>
 
       {/* Description Section */}
-      <section className="relative w-full max-w-[1040px] mx-auto my-12 px-4">
+      <section ref={descriptionRef} className="relative w-full max-w-[1040px] mx-auto my-12 px-4">
         <h2 className="text-[#27548A] text-4xl font-semibold font-['Inter'] mb-3">
           Warehousing
         </h2>
@@ -34,7 +45,7 @@ export default function Warehousing() {
       </section>
 
       {/* Why Us Section */}
-      <section className="bg-[f5f5f5] py-16 px-4 mb-10">
+      <section ref={whyUsRef} className="bg-[f5f5f5] py-16 px-4 mb-10">
         <h2 className="text-4xl font-medium text-[#27548A] text-center mb-12">Why Us?</h2>
 
         <div className="max-w-[1100px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 text-center">
@@ -81,7 +92,7 @@ export default function Warehousing() {
       </section>
 
       {/* Business That We Serve Section */}
-      <section className="bg-[#E2E2E2]/60 py-16 px-4 mb-20">
+      <section ref={businessRef} className="bg-[#E2E2E2]/60 py-16 px-4 mb-20">
         <h2 className="text-4xl font-medium text-[#27548A] text-center mb-16">
           Business That We Serve
         </h2>
@@ -122,6 +133,8 @@ export default function Warehousing() {
           </div>
         </div>
       </section>
+
+    <ScrollButton sections={[heroRef, descriptionRef, whyUsRef, businessRef]} />
 
     </main>
   );

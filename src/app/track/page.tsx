@@ -1,6 +1,7 @@
 "use client";
 import { Inconsolata } from "next/font/google";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import ScrollButton from '@/app/components/scroll-button';
 
 const inconsolata = Inconsolata({
   subsets: ["latin"],
@@ -75,8 +76,10 @@ export default function TrackPage() {
   const stageIndex = ["Order Received", "Departure", "Arrived"].indexOf(currentStage);
   const isDelivered = lastLog?.status === "Paket telah diterima";
 
+  const trackRef = useRef<HTMLElement | null>(null);
+
   return (
-    <main className="max-w-7xl mx-auto px-6 py-10">
+    <main ref={trackRef} className="max-w-7xl mx-auto px-6 py-10">
       {/* Header */}
       <section className="text-center mb-10">
         <h1 className="text-3xl md:text-4xl font-bold">Order Tracking</h1>
@@ -99,6 +102,8 @@ export default function TrackPage() {
         </div>
         {error && <p className="text-red-500 mt-2">{error}</p>}
       </section>
+
+      <ScrollButton sections={[trackRef]} />
 
       {/* Order ID + Status */}
       {trackingData && (

@@ -2,10 +2,11 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { forwardRef } from 'react';
 
-export default function Footer() {
+const Footer = forwardRef<HTMLElement, {}>((props, ref) => {
   return (
-    <footer className="w-full bg-gradient-to-b from-[#193759] via-[#27548A] to-[#27548A] text-white font-inter">
+    <footer id="footer" className="w-full bg-gradient-to-b from-[#193759] via-[#27548A] to-[#27548A] text-white font-inter">
       <div className="max-w-[1440px] mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-[50px_1fr_1fr_1fr] gap-12">
 
         {/* Kolom Kosong */}
@@ -68,4 +69,7 @@ export default function Footer() {
       </div>
     </footer>
   );
-}
+});
+
+Footer.displayName = "Footer";
+export default Footer;
